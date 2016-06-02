@@ -72,10 +72,17 @@
 
 /*==================[macros and definitions]=================================*/
 
+#define RES_DAC 310 // 310=1023/3.3
+#define SEG_TO_MS(a) (a*1000)
 
 /*==================[internal data declaration]==============================*/
 
 volatile uint16_t count=0;
+volatile float delta;
+volatile uint32_t amplitude;
+volatile uint32_t period;
+volatile uint32_t value_dac;
+
 
 /*==================[internal functions declaration]=========================*/
 
@@ -86,25 +93,54 @@ volatile uint16_t count=0;
 
 /*==================[internal functions definition]==========================*/
 void counter(){
-	count+=7;
-	if(count>682){
+
+	count++;
+
+	value_dac=(uint32_t)(delta*count);
+
+	if(count==period){
 		count=0;
+		value_dac=0;
 	}
-	dacUpdate(count);
+
+	dacUpdate(value_dac);
 
 }
 
+void signalInit(float amplitude_volts,float period_ms){
 
+	amplitude = amplitude_volts;
+	period=(uint32_t)period_ms;
 
-void signalInit(){
+	delta=(amplitude/(float)period_ms)*RES_DAC;
 	timerInit(1,&counter);
 	dacInit();
-}
-void signalSelectFunction(){}
-void signalSetPeriod(uint16_t period){}
-void signalSetFrequency(uint32_t freq){}
-void signalSetAmplitude(uint16_t volt){}
 
+}
+
+void signalSelectFunction(){
+
+
+}
+
+void signalSetPeriod(float period_ms){
+
+	period=(uint32_t)period_ms;
+	delta=(amplitude/period_ms)*RES_DAC;
+
+}
+
+void signalSetAmplitude(float amplitude_volts){
+
+	amplitude=amplitude_volts;
+	delta=(amplitude/period)*RES_DAC;
+}
+
+void signalSetFrequency(float freq){
+
+	period=SEG_TO_MS(1/freq);
+	delta=(amplitude/period);
+}
 /*==================[external functions definition]==========================*/
 /** \brief Main function
  *

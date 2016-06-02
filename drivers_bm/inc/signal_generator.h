@@ -72,11 +72,10 @@
 /*==================[external data declaration]==============================*/
 
 
-void signalInit();
-void signalSelectFunction();
-void signalSetPeriod(uint16_t period);
-void signalSetFrequency(uint32_t freq);
-void signalSetAmplitude(uint16_t volt);
+void signalInit(float amplitude_volts,float period_ms);
+void signalSetPeriod(float period_ms);
+void signalSetFrequency(float freq);
+void signalSetAmplitude(float amplitude_volts);
 
 /*==================[external functions declaration]=========================*/
 
