@@ -106,10 +106,6 @@ int main(void)
    /* Starts the operating system in the Application Mode 1 */
    /* This example has only one Application Mode */
    StartOS(AppMode1);
-
-
-
-
    /* StartOs shall never returns, but to avoid compiler warnings or errors
     * 0 is returned */
    return 0;
