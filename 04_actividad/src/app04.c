@@ -58,7 +58,7 @@
  */
 
 /*==================[inclusions]=============================================*/
-#include "appblink.h"       /* <= own header */
+#include "app04.h"       /* <= own header */
 #include "led.h"
 #include "timer.h"
 #include "switch.h"
@@ -68,6 +68,7 @@
 /*==================[internal data declaration]==============================*/
 
 uint8_t state_led;
+uint8_t led;
 
 /*==================[internal functions declaration]=========================*/
 
@@ -91,25 +92,58 @@ uint8_t state_led;
 
 
 void toggle(){
+
 	state_led=!state_led;
+
+	if(state_led==LED_ON){
+		ledON(led);
+	}else{
+		ledOFF(led);
+	}
+
 }
 
 int main(void)
 {
    /* perform the needed initialization here */
 
+	led=LED_RGB_RED;
+
 	ledsInit();
 	switchsInit();
-	//timerInit(100,&toggle);
+	timerInit(100,&toggle);
+
 
 	while(1){
 
 
 		if(!switchGetStatus(TEC1)){
-			ledON(LED_GREEN);
-		}else{
-			ledOFF(LED_GREEN);
+			ledOFF(led);
+			led=LED_RGB_BLUE;
+			while(!switchGetStatus(TEC1));
 		}
+
+		if(!switchGetStatus(TEC2)){
+			ledOFF(led);
+			led=LED_YELLOW;
+			while(!switchGetStatus(TEC2));
+		}
+
+		if(!switchGetStatus(TEC3)){
+			ledOFF(led);
+			led=LED_RED;
+			while(!switchGetStatus(TEC3));
+		}
+
+
+		if(!switchGetStatus(TEC4)){
+			ledOFF(led);
+			led=LED_GREEN;
+			while(!switchGetStatus(TEC4));
+		}
+
+
+
 	}
 
 
