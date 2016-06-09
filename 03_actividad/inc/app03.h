@@ -31,8 +31,8 @@
  *
  */
 
-#ifndef XXXXX_H
-#define XXXXX_H
+#ifndef APP03_H
+#define APP03_H
 /** \brief Bare Metal example header file
  **
  ** This is a mini example of the CIAA Firmware
@@ -64,6 +64,19 @@
 /*==================[macros]=================================================*/
 #define lpc4337            1
 #define mk60fx512vlq15     2
+
+
+#define LED_ON 1
+#define LED_OFF 0
+
+#define SELECT_LED_RGB_RED 0
+#define SELECT_LED_RGB_BLUE 1
+#define SELECT_LED_RGB_GREEN 2
+#define SELECT_LED_YELLOW 3
+#define SELECT_LED_RED 4
+#define SELECT_LED_GREEN 5
+
+
 
 /*==================[typedef]================================================*/
 

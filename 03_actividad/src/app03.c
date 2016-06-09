@@ -86,10 +86,45 @@
  */
 
 
-uint8_t state_led=0;
+uint8_t state_led;
+uint8_t select_led;
+uint8_t led;
 
 void toggle(){
+
+
 	state_led=!state_led;
+
+	if(state_led==LED_ON){
+
+		switch(select_led) {
+
+			case SELECT_LED_RGB_RED:
+				led = LED_RGB_RED;
+				break;
+			case SELECT_LED_RGB_BLUE:
+				led = LED_RGB_BLUE;
+				break;
+			case SELECT_LED_RGB_GREEN:
+				led = LED_RGB_GREEN;
+				break;
+			case SELECT_LED_YELLOW:
+				led = LED_YELLOW;
+				break;
+			case SELECT_LED_RED:
+				led = LED_RED;
+				break;
+			case SELECT_LED_GREEN:
+				led = LED_GREEN;
+				select_led = SELECT_LED_RGB_RED;
+				break;
+			default:
+				break;
+		}
+		select_led++;
+	}
+
+
 }
 
 int main(void)
@@ -102,9 +137,9 @@ int main(void)
 	while(1){
 
 		if(state_led){
-			ledON(LED_RED);
+			ledON(led);
 		}else{
-			ledOFF(LED_RED);
+			ledOFF(led);
 		}
 	}
 
