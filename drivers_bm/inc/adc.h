@@ -66,6 +66,7 @@
 #define lpc4337            1
 #define mk60fx512vlq15     2
 
+#define RES_ADC 310
 #define CH1 1
 #define CH2 2
 #define CH3 3

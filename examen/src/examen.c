@@ -87,9 +87,12 @@
 
 
 /*==================[internal data declaration]==============================*/
+
 volatile uint16_t count;
+volatile uint16_t count_dac;
 volatile uint32_t value_dac;
 volatile uint16_t value_adc;
+
 
 /*==================[internal functions declaration]=========================*/
 
@@ -126,24 +129,27 @@ struct signal signal_ent;
 
 void counter(){
 
+	count_dac++;
 	count++;
 
-	if(count<=signal_cal.duty_cycle){
+	if(count_dac<=signal_cal.duty_cycle){
 		value_dac=(uint32_t)signal_cal.vmax;
 	}else{
 		value_dac=(uint32_t)signal_cal.vmin;
 	}
-	if(count==signal_cal.period){
-		count=0;
+	if(count_dac==signal_cal.period){
+		count_dac=0;
 	}
 
 	dacUpdate(value_dac);
 
 	value_adc = adcGetValue(CH1);
 
-	signal_ent.vins = (TO_VALUE_ADC(value_adc))*signal_ent.gain + signal_ent.offset;
-	//signal_ent.vmax= MAX(signal_ent.vins,signal_ent.vmax);
-	//signal_ent.vmin= MIN(signal_ent.vins,signal_ent.vmin);
+	signal_ent.vins=(TO_VALUE_ADC(value_adc))*signal_ent.gain + signal_ent.offset;
+	signal_ent.vmax= MAX(signal_ent.vmax,signal_ent.vins);
+	signal_ent.vmin= MIN(signal_ent.vmin,signal_ent.vins);
+
+
 }
 
 
@@ -171,6 +177,11 @@ int main(void)
 
 	/***********************************/
 
+	signal_ent.gain = 1;
+	signal_ent.offset = 0.5;
+	signal_ent.vmin = 3.3;
+	signal_ent.vmax = 0;
+
 	dacInit();
 	adcInit(CH1);
 	timerInit(1,&counter);
@@ -180,6 +191,10 @@ int main(void)
 
 	while(1){
 
+		if(count==1000){
+			count=0;
+		//	UART_SendChar();
+		}
 
 
 	}

@@ -97,6 +97,8 @@ void toggle(){
 
 	if(state_led==LED_ON){
 
+		select_led++;
+
 		switch(select_led) {
 
 			case SELECT_LED_RGB_RED:
@@ -116,12 +118,12 @@ void toggle(){
 				break;
 			case SELECT_LED_GREEN:
 				led = LED_GREEN;
-				select_led = SELECT_LED_RGB_RED;
+				select_led = SELECT_NONE;
 				break;
 			default:
 				break;
 		}
-		select_led++;
+
 	}
 
 

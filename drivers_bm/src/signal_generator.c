@@ -79,7 +79,7 @@
 
 volatile uint16_t count=0;
 volatile float delta;
-volatile uint32_t amplitude;
+volatile float amplitude;
 volatile uint32_t period;
 volatile uint32_t value_dac;
 
@@ -92,11 +92,12 @@ volatile uint32_t value_dac;
 /*==================[external data definition]===============================*/
 
 /*==================[internal functions definition]==========================*/
-void counter(){
+/*void counter(){
 
 	count++;
 
 	value_dac=(uint32_t)(delta*count);
+
 
 	if(count==period){
 		count=0;
@@ -105,7 +106,7 @@ void counter(){
 
 	dacUpdate(value_dac);
 
-}
+}*/
 
 void signalInit(float amplitude_volts,float period_ms){
 
@@ -113,7 +114,7 @@ void signalInit(float amplitude_volts,float period_ms){
 	period=(uint32_t)period_ms;
 
 	delta=(amplitude/(float)period_ms)*RES_DAC;
-	timerInit(1,&counter);
+	//timerInit(1,&counter);
 	dacInit();
 
 }
